@@ -1,0 +1,57 @@
+@let p = project();
+<div class="modal-shell">
+  <button class="modal-backdrop" type="button" aria-label="Chiudi dettagli progetto" (click)="closed.emit()"></button>
+  <section
+    #dialog
+    class="project-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="dialog-title"
+    tabindex="-1"
+    (keydown)="trapFocus($event)"
+  >
+    <div class="modal-head">
+      <span>PROJECT / {{ p.repoName.toUpperCase() }}</span>
+      <button #closeButton class="modal-close" type="button" (click)="closed.emit()" aria-label="Chiudi scheda progetto">×</button>
+    </div>
+    <div class="modal-content">
+      <div class="modal-label">{{ p.kicker }}</div>
+      <h2 id="dialog-title">{{ p.title }}<span class="accent-dot">.</span></h2>
+      <p class="modal-description">{{ p.description }}</p>
+
+      @if (p.updatedAt || p.stars) {
+        <p class="modal-meta">
+          @if (p.updatedAt) { <span>Aggiornato il {{ p.updatedAt | date: 'd MMMM y' : undefined : 'it' }}</span> }
+          @if (p.stars) { <span>★ {{ p.stars }}</span> }
+        </p>
+      }
+
+      @if (p.highlights.length) {
+        <h3>In evidenza</h3>
+        <ul class="highlights">
+          @for (highlight of p.highlights; track highlight) {
+            <li><span aria-hidden="true">↗</span> {{ highlight }}</li>
+          }
+        </ul>
+      }
+
+      <h3>Tecnologie</h3>
+      <div class="project-tags modal-tags">
+        @for (tag of p.tags; track tag) {
+          <span>{{ tag }}</span>
+        } @empty {
+          <span>Repository pubblico</span>
+        }
+      </div>
+
+      <div class="modal-actions">
+        <a class="button button-primary" [href]="p.repoUrl" target="_blank" rel="noopener noreferrer">
+          Apri repository GitHub <span aria-hidden="true">↗</span>
+        </a>
+        @if (p.demoUrl) {
+          <a class="button button-secondary" [href]="p.demoUrl" target="_blank" rel="noopener noreferrer">Demo online ↗</a>
+        }
+      </div>
+    </div>
+  </section>
+</div>

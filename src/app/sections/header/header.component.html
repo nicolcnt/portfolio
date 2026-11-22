@@ -1,0 +1,38 @@
+<header class="topbar">
+  <div class="shell nav-shell">
+    <button class="brand" type="button" (click)="go('home')" aria-label="Nico.dev, torna all'inizio">
+      <span class="brand-icon" aria-hidden="true">n<span class="brand-icon-dot">.</span></span>
+      <span>nico<span class="accent-dot">.</span>dev</span>
+    </button>
+
+    <nav class="desktop-nav" aria-label="Navigazione principale">
+      @for (item of navItems; track item.id) {
+        <button type="button" (click)="go(item.id)">{{ item.label }}</button>
+      }
+    </nav>
+
+    <div class="nav-actions">
+      <a class="icon-control desktop-github" [href]="githubUrl" target="_blank" rel="noopener noreferrer" aria-label="Visita GitHub">
+        <app-icon name="github" />
+      </a>
+      <button
+        class="icon-control mobile-menu-toggle"
+        type="button"
+        (click)="menuOpen.set(!menuOpen())"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="mobile-nav"
+        [attr.aria-label]="menuOpen() ? 'Chiudi menu' : 'Apri menu'"
+      >
+        <app-icon [name]="menuOpen() ? 'close' : 'menu'" />
+      </button>
+    </div>
+  </div>
+
+  @if (menuOpen()) {
+    <nav id="mobile-nav" class="mobile-nav shell" aria-label="Navigazione mobile">
+      @for (item of navItems; track item.id; let i = $index) {
+        <button type="button" (click)="go(item.id)">{{ item.label }} <span>{{ (i + 1).toString().padStart(2, '0') }}</span></button>
+      }
+    </nav>
+  }
+</header>

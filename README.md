@@ -1,41 +1,60 @@
 # Nico — Developer Portfolio
 
-Portfolio **single-page** in italiano, realizzato con **Angular 21, TypeScript e SCSS**. Nessun CV, storico professionale o PDF.
+Portfolio single-page in italiano, realizzato con **Angular 21, TypeScript e SCSS**, senza librerie UI esterne.
+
+Sito: <https://nicolcnt.github.io/portfolio/>
 
 ## Avvio
 
 ```bash
 npm ci
-npm start
+npm start          # http://localhost:4200/
+npm run build      # build di produzione
+npm test           # test (Vitest) in watch mode
+npm run test:ci    # test una sola volta, come in CI
 ```
 
-Visita `http://localhost:4200/`. Build produzione: `npm run build`.
+## Struttura
 
-## Progetti GitHub — aggiornamento automatico
+```
+src/
+├── index.html                      meta tag e font
+├── styles.scss                     entry point degli stili
+├── styles/
+│   ├── _base.scss                  variabili colore, reset
+│   └── _sections.scss              stili delle sezioni + responsive
+└── app/
+    ├── app.ts / app.html           shell della pagina
+    ├── data/portfolio.config.ts    ← tutti i contenuti modificabili
+    ├── services/
+    │   ├── github.service.ts       chiamata API GitHub, filtri, modello Project
+    │   └── scroll.service.ts       scroll alle sezioni
+    ├── shared/
+    │   ├── icon.component.ts       icone SVG (github, mail, discord, …)
+    │   └── reveal.directive.ts     animazione di comparsa allo scroll
+    └── sections/                   header, hero, projects (+ modale), stack,
+                                    github-cta, contacts, footer
+```
 
-Il portfolio carica i repository pubblici tramite la **GitHub REST API** in `src/app/services/github.service.ts` (nessun token nel browser). Mostra tutti i repository pubblici di `nicolaloconte`, tranne:
+## Contenuti
 
-- `pokexplorer-test` (esclusione esplicita)
-- `nicolaloconte` (repository di profilo, collegato separatamente nella sezione GitHub)
+Tutto si modifica in `src/app/data/portfolio.config.ts`:
 
-La lista viene aggiornata a ogni apertura o ricaricamento della pagina, ordinata per ultimo aggiornamento. GitHub applica un limite alle chiamate non autenticate (in genere **60 richieste per ora per IP**). In caso di errore viene mostrato un avviso e un solo progetto di esempio *esplicitamente indicato come fallback*, con possibilità di riprovare. Non è necessaria alcuna chiave API.
+- `GITHUB_USERNAME`: usato per API, link e testi.
+- `EXCLUDED_REPOSITORIES`: repository da non mostrare (oltre a fork e archiviati, sempre esclusi).
+- `PROJECT_DETAILS`: schede editoriali facoltative (titolo, descrizione, punti salienti, tag, grafica della card). La chiave è il nome del repository in minuscolo.
+- `SKILL_GROUPS`: tecnologie divise per categoria.
+- `CONTACTS`: link di contatto; aggiungi o togli voci (c'è una voce LinkedIn pronta da decommentare).
+- `NAV_ITEMS`: voci del menu.
 
-Le descrizioni personalizzate del progetto `pokexplorer` si trovano in `src/app/data/portfolio.config.ts` (`PROJECT_DETAILS`). Gli altri repository sono mostrati automaticamente con titolo, descrizione, linguaggio e topic disponibili nella API GitHub. Il dettaglio si apre senza lasciare la pagina.
+## Progetti da GitHub
 
-## Contenuti e contatti
+I repository pubblici vengono caricati a ogni visita dall'API REST di GitHub (nessun token nel browser), ordinati per ultimo aggiornamento. L'API non autenticata ha un limite di circa 60 richieste/ora per IP: se fallisce, la pagina mostra un avviso, un progetto di esempio dichiarato come tale e un pulsante "Riprova".
 
-Modifica `src/app/data/portfolio.config.ts`:
+## Deploy
 
-- `SKILL_GROUPS`: tecnologie/strumenti in categorie con icone monogramma.
-- `PROJECT_DETAILS`: schede editoriali facoltative per singoli repository.
-- `CONTACTS`: email, GitHub, Discord e Instagram.
+Il workflow `.github/workflows/deploy.yml` a ogni push su `main` esegue i test, compila con `--base-href /portfolio/`, crea `404.html` e pubblica su GitHub Pages.
 
-**Discord e Instagram sono vuoti di proposito:** non sono stati forniti gli URL verificati. Nel sito compaiono come *da configurare* invece di link inventati. Imposta gli URL reali per attivarli automaticamente.
+## Accessibilità
 
-## UI / accessibilità
-
-Tema dark/light con preferenza salvata localmente, mobile responsive, animazioni rispettose di `prefers-reduced-motion`, navigazione da tastiera e modale con chiusura su Escape e gestione del focus. Nessuna libreria JS aggiuntiva.
-
-## Deployment
-
-È incluso `netlify.toml` per Netlify. Puoi anche usare altre piattaforme che supportino build Angular statiche (output `dist/nico-developer-portfolio/browser`). In hosting su sottopercorso, configura il base-href Angular.
+Tema scuro, layout responsive, rispetto di `prefers-reduced-motion`, navigazione da tastiera, modale con focus trap, chiusura con Esc e ripristino del focus.

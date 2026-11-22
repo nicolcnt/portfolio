@@ -1,0 +1,56 @@
+<section id="home" class="hero shell">
+  <div class="hero-copy">
+    <div class="hero-eyebrow">
+      <span class="pulse-point" aria-hidden="true"></span> HELLO WORLD <span class="eyebrow-divider">/</span> WELCOME TO MY SPACE
+    </div>
+    <h1>
+      Ciao, sono <span class="name-gradient">Nico<span class="hero-period">.</span></span><br />
+      <span class="title-line">Full Stack <span class="title-outline">Developer</span></span>
+    </h1>
+    <p class="hero-description">
+      Mi piace costruire cose che funzionano. Qui trovi i miei progetti, il codice e le tecnologie con cui lavoro.
+    </p>
+    <div class="hero-actions">
+      <button class="button button-primary" type="button" (click)="scroll.scrollTo('projects')">
+        Esplora i progetti <span aria-hidden="true">↗</span>
+      </button>
+      <a class="button button-secondary" [href]="githubUrl" target="_blank" rel="noopener noreferrer">
+        <app-icon name="github" /> GitHub
+      </a>
+    </div>
+    <div class="hero-footnote"><span class="small-dash" aria-hidden="true"></span> <span>Design & codice, senza fronzoli.</span></div>
+  </div>
+
+  <div class="hero-graphic" aria-hidden="true">
+    <div class="graphic-orbit orbit-one"></div>
+    <div class="graphic-orbit orbit-two"></div>
+    <div class="graphic-glow"></div>
+    <div class="hero-terminal">
+      <div class="terminal-top">
+        <div class="window-dots"><i></i><i></i><i></i></div>
+        <span>nico / developer.ts</span><span class="terminal-top-icon">⌁</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="line-no">01</span> <span class="syntax-purple">const</span> <span class="syntax-blue">developer</span> = &#123;</div>
+        <div><span class="line-no">02</span> &nbsp; name: <span class="syntax-green">'Nico'</span>,</div>
+        <div><span class="line-no">03</span> &nbsp; role: <span class="syntax-green">'Full Stack'</span>,</div>
+        <div><span class="line-no">04</span> &nbsp; loves: [</div>
+        <div><span class="line-no">05</span> &nbsp; &nbsp; <span class="syntax-green">'clean code'</span>,</div>
+        <div><span class="line-no">06</span> &nbsp; &nbsp; <span class="syntax-green">'building stuff'</span></div>
+        <div><span class="line-no">07</span> &nbsp; ],</div>
+        <div><span class="line-no">08</span> &nbsp; status: <span class="syntax-green">'creating'</span></div>
+        <div><span class="line-no">09</span> &#125;;<span class="cursor"></span></div>
+      </div>
+      <div class="terminal-footer">
+        <span class="terminal-status"><span class="status-dot"></span> All systems ready</span>
+        <span>TS <span class="mini-violet">◆</span></span>
+      </div>
+    </div>
+    <div class="float-chip chip-one"><span class="chip-glyph">&#123; &#125;</span> C# / .NET</div>
+    <div class="float-chip chip-two"><span class="chip-glyph chip-blue">◈</span> Angular</div>
+  </div>
+
+  <button class="scroll-cue" type="button" (click)="scroll.scrollTo('projects')">
+    <span class="scroll-line"></span> SCOPRI DI PIÙ <span aria-hidden="true">↓</span>
+  </button>
+</section>

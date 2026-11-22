@@ -1,0 +1,40 @@
+:root {
+  font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, sans-serif;
+  color-scheme: dark;
+  --font-display: 'Space Grotesk', 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --bg: #090b14;
+  --bg-soft: #0f1221;
+  --card: rgba(20, 23, 40, 0.78);
+  --card-solid: #15182a;
+  --card-hover: #1b1e32;
+  --fg: #f2f2fc;
+  --muted: #9499b2;
+  --muted-strong: #bbc0d6;
+  --line: rgba(176, 182, 236, .13);
+  --line-strong: rgba(176, 182, 236, .24);
+  --violet: #ad96ff;
+  --violet-strong: #8a68ff;
+  --blue: #70aaff;
+  --mint: #5be3c3;
+  --orange: #ffc17e;
+  --glass: rgba(10, 12, 23, .74);
+  --glow: rgba(130, 92, 255, .19);
+  --shadow: 0 22px 65px rgba(0,0,0,.22);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--bg); color: var(--fg); transition: background .25s ease, color .25s ease; }
+body.dialog-open { overflow: hidden; }
+
+/* Componenti Angular: contenitori a blocco senza stili propri */
+app-site-header, app-hero, app-projects, app-stack, app-github-cta, app-contacts, app-site-footer { display: block; }
+a { color: inherit; text-decoration: none; }
+button { color: inherit; font: inherit; cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; }
+::selection { background: rgba(150,117,255,.35); }
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

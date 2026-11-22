@@ -1,0 +1,91 @@
+<section id="projects" class="section projects-section shell">
+  <div class="section-heading" appReveal>
+    <div class="section-eyebrow"><span>01</span> / PROGETTI</div>
+    <div class="section-heading-row">
+      <div>
+        <h2>Il codice parla <span class="section-highlight">da sé.</span></h2>
+        <p>Una selezione viva dei miei repository pubblici. Clicca su un progetto per scoprirlo.</p>
+      </div>
+      <a class="section-side-link" [href]="githubUrl" target="_blank" rel="noopener noreferrer">
+        Vedi tutto su GitHub <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+
+  @if (githubError()) {
+    <div class="api-alert" role="status">
+      <span>Il collegamento a GitHub non è disponibile. Mostro un progetto conosciuto come anteprima; gli altri potrebbero non essere visibili.</span>
+      <button type="button" (click)="refresh()">Riprova ↻</button>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="project-grid" role="status" aria-label="Caricamento repository GitHub">
+      @for (placeholder of [1, 2]; track placeholder) {
+        <div class="project-skeleton"><div></div><span></span><span></span></div>
+      }
+    </div>
+  } @else {
+    <div class="project-grid">
+      @for (project of projects(); track project.id; let index = $index) {
+        <article class="project-card">
+          <button
+            class="project-card-hit"
+            type="button"
+            (click)="selected.set(project)"
+            [attr.aria-label]="'Apri dettagli del progetto ' + project.title"
+          >
+            <div class="project-visual" [class]="'visual-' + project.visual">
+              <span class="visual-topline">{{ projectNumber(index) }} <span>↗</span></span>
+              @switch (project.visual) {
+                @case ('taskmanager') {
+                  <div class="tm-board" aria-hidden="true">
+                    <div class="tm-header"><strong>✓ taskmanager.</strong><small>.NET 10</small></div>
+                    <div class="tm-items">
+                      <div><span>✓</span> Modello e validazioni <em>DONE</em></div>
+                      <div><span>●</span> Gestione attività <em>DOING</em></div>
+                      <div><span>○</span> Test e qualità <em>TODO</em></div>
+                    </div>
+                    <div class="tm-progress"><span></span></div>
+                  </div>
+                }
+                @case ('arcade') {
+                  <div class="arcade-decor arcade-decor-one"></div>
+                  <div class="arcade-decor arcade-decor-two"></div>
+                  <div class="arcade-symbol"><span class="arcade-center"></span></div>
+                }
+                @default {
+                  <div class="visual-code-symbol">&lt;<span>/</span>&gt;</div>
+                }
+              }
+              <span class="visual-bottomline">{{ project.tagline }}</span>
+            </div>
+            <div class="project-info">
+              <div class="project-kicker">{{ project.kicker }}</div>
+              <h3>{{ project.title }} <span class="project-arrow" aria-hidden="true">↗</span></h3>
+              <p>{{ project.description }}</p>
+              <div class="project-tags">
+                @for (tag of project.tags; track tag) {
+                  <span>{{ tag }}</span>
+                }
+              </div>
+              <span class="project-details-cta">Scopri il progetto <span aria-hidden="true">→</span></span>
+            </div>
+          </button>
+        </article>
+      } @empty {
+        <div class="empty-projects">
+          <span aria-hidden="true">⌘</span>
+          <h3>Nessun progetto pubblico da mostrare</h3>
+          <p>Quando saranno disponibili nuovi repository, appariranno qui automaticamente.</p>
+          <a [href]="githubUrl" target="_blank" rel="noopener noreferrer">Vai al profilo GitHub ↗</a>
+        </div>
+      }
+    </div>
+  }
+  <p class="section-afterword">I repository sono caricati in tempo reale da GitHub.</p>
+</section>
+
+@if (selected(); as project) {
+  <app-project-modal [project]="project" (closed)="selected.set(null)" />
+}
